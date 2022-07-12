@@ -6,7 +6,7 @@ public class spawner : MonoBehaviour
     [SerializeField] private GameObject parent;
     [SerializeField] private int boidsCount;
     
-    void Start()
+    void Awake()
     {
         SpawnBoids(boidsCount);
     }
