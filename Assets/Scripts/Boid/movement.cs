@@ -4,19 +4,20 @@ using UnityEngine;
 
 public class movement : MonoBehaviour
 {
-    [SerializeField] private float speed = 0.5f;
-    [SerializeField] private float fov = 90;
-    [SerializeField] private float visionRange = 3;
-    [SerializeField] private int raysCount = 10;
-    [SerializeField] private float cohesionAmplifier = 0.1f;
-    [SerializeField] private float avoidanceAmplifier = 0.1f;
-    [SerializeField] private float alignmentAmplifier = 0.1f;
-    [SerializeField] private float terrainAvoidanceAmplifier = 1;
+    [Header("Movement")]
+    [SerializeField, Range(0,5)] private float speed = 0.5f;
+    
+    [Header("Vision")]
+    [SerializeField, Range(0,360)] private float fov = 90;
+    [SerializeField, Range(0,3)] private float visionRange = 3;
+    [SerializeField, Range(5,50)] private int raysCount = 10;
+    
+    [Header("Behaviour")]
+    [SerializeField, Range(0,1)] private float cohesionAmplifier = 0f;
+    [SerializeField, Range(0,1)] private float avoidanceAmplifier = 0f;
+    [SerializeField, Range(0,1)] private float alignmentAmplifier = 0f;
+    [SerializeField, Range(0,3)] private float terrainAvoidanceAmplifier = 1;
 
-    enum MyEnum
-    {
-        
-    }
     private Vector3 _rawCorrectionFromCohesion;
     private Vector3 _rawCorrectionFromActorAvoidance;
     private Vector3 _rawCorrectionFromAlignment;
@@ -26,15 +27,23 @@ public class movement : MonoBehaviour
     private Vector3 _correctionFromAlignment;
     private Vector3 _correctionFromTerrainAvoidance;
     private Vector3 _finalCorrection;
-    private readonly List<Vector3> _offsetsToSeenActors = new List<Vector3>();
+    private readonly List<Vector3> _offsetsToSeenActors = new();
     private RayScan _middleRay;
     private RayScan _bestRay;
     private float _speedModifier = 1;
     private RayScan[] _rayScans;
+
     private struct RayScan
     {
         public Ray Ray { get; set; }
         public RaycastHit Hit { get; set; }
+    }
+
+    public void UpdateAmplifiers(float newCohesionAmplifier, float newAlignmentAmplifier, float newAvoidanceAmplifier)
+    {
+        cohesionAmplifier = newCohesionAmplifier;
+        alignmentAmplifier = newAlignmentAmplifier;
+        avoidanceAmplifier = newAvoidanceAmplifier;
     }
 
     void Update()
@@ -69,9 +78,9 @@ public class movement : MonoBehaviour
             var distance = Vector3.Distance(transform.position, boid.transform.position);
             if (distance > visionRange || distance < 0.05) continue;
             
-            var angularOffsetToBoid = Mathf.Abs(Quaternion.Angle(
-                Quaternion.LookRotation(boid.transform.position - transform.position),
-                transform.rotation));
+            var angularOffsetToBoid = Mathf.Abs(Vector3.Angle(
+                boid.transform.position - transform.position,
+                transform.forward));
             if (angularOffsetToBoid > fov / 2) continue;
 
             closeBoidsCount++;
@@ -194,16 +203,16 @@ public class movement : MonoBehaviour
             Gizmos.DrawRay(transform.position,offset);
         }
 
-        foreach (var rayScan in _rayScans)
-        {
-            if (rayScan.Hit.collider is null)
-            {
-                Debug.DrawRay(rayScan.Ray.origin,rayScan.Ray.direction*visionRange,Color.green);
-            }
-            else
-            {
-                Debug.DrawRay(rayScan.Ray.origin,rayScan.Ray.direction*visionRange,Color.red);
-            }
-        }
+        // foreach (var rayScan in _rayScans)
+        // {
+        //     if (rayScan.Hit.collider is null)
+        //     {
+        //         Debug.DrawRay(rayScan.Ray.origin,rayScan.Ray.direction*visionRange,Color.green);
+        //     }
+        //     else
+        //     {
+        //         Debug.DrawRay(rayScan.Ray.origin,rayScan.Ray.direction*visionRange,Color.red);
+        //     }
+        // }
     }
 }
