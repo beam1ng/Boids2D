@@ -48,13 +48,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2.7
-  fov: 300
-  visionRange: 3
+  fov: 240
+  visionRange: 2
   raysCount: 15
-  cohesionAmplifier: 1
-  avoidanceAmplifier: 1
-  alignmentAmplifier: 0.6
-  terrainAvoidanceAmplifier: 3
+  cohesionAmplifier: 0
+  avoidanceAmplifier: 0
+  alignmentAmplifier: 0
+  terrainAvoidanceAmplifier: 2.4
 --- !u!135 &1768850157595833922
 SphereCollider:
   m_ObjectHideFlags: 0
