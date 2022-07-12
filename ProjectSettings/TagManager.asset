@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Boid
   - Terrain
+  - CohesionSlider
+  - AlignmentSlider
+  - AvoidanceSlider
   layers:
   - Default
   - TransparentFX
