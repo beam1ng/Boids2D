@@ -69,9 +69,9 @@ public class movement : MonoBehaviour
             var distance = Vector3.Distance(transform.position, boid.transform.position);
             if (distance > visionRange || distance < 0.05) continue;
             
-            var angularOffsetToBoid = Mathf.Abs(Quaternion.Angle(
-                Quaternion.LookRotation(boid.transform.position - transform.position),
-                transform.rotation));
+            var angularOffsetToBoid = Mathf.Abs(Vector3.Angle(
+                boid.transform.position - transform.position,
+                transform.forward));
             if (angularOffsetToBoid > fov / 2) continue;
 
             closeBoidsCount++;
