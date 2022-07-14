@@ -1,6 +1,6 @@
 # Boids2D
 
-Boids2D is a demonstrational 2D bird-like-object simulation project.
+Boids2D is a demonstrational 2D bird-like-objects Unity simulation.
 
 Simulation imitiates flocking behaviour of birs and group-focused behaviour of shoals of fish.
 
